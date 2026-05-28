@@ -1,0 +1,45 @@
+<div class="document-input-container">
+  <h2>Document analyzer</h2>
+  
+  <div class="file-upload-section">
+    <label for="file-input" class="file-label">
+      <span class="upload-icon">📄</span>
+      <span class="upload-text">Attach photo</span>
+      <input 
+        type="file" 
+        id="file-input" 
+        accept=".jpg,.jpeg,.png,.webp,.pdf"
+        (change)="onFileSelected($event)"
+        hidden
+      />
+    </label>
+
+    <div *ngIf="fileName" class="file-preview">
+      <p class="file-name">✓ File selected: <strong>{{ fileName }}</strong></p>
+      <button type="button" (click)="removeFile()" class="remove-btn">Remove</button>
+    </div>
+
+    <div *ngIf="fileError" class="error-message">
+      ⚠️ {{ fileError }}
+    </div>
+  </div>
+
+  <div class="query-section">
+    <label for="query-input">Your question about the document:</label>
+    <textarea 
+      id="query-input"
+      [(ngModel)]="userQuery"
+      placeholder="For example: What are the main terms in this contract?"
+      rows="4"
+      [disabled]="!fileName"
+    ></textarea>
+  </div>
+
+  <button 
+    (click)="onSubmit()" 
+    [disabled]="!fileName || !userQuery.trim()"
+    class="submit-btn"
+  >
+    Analyze Document
+  </button>
+</div>

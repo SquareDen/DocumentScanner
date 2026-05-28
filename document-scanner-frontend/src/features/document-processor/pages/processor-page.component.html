@@ -1,0 +1,19 @@
+<div class="processor-page">
+  <div class="header">
+    <h1>📄 Document Analyzer</h1>
+    <p class="subtitle">Upload a document and ask a question - the AI will answer based on the content</p>
+  </div>
+
+  <div class="content-wrapper">
+    <app-document-input (fileSelected)="onFileSelected($event)"></app-document-input>
+    <app-analysis-results 
+      [result]="analysisResult" 
+      [isLoading]="isLoading"
+      (newAnalysis)="onNewAnalysis()"
+    ></app-analysis-results>
+
+    <div *ngIf="apiError" class="api-error">
+      <p>{{ apiError }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="results-container" *ngIf="result || isLoading">
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Please, wait...<span class="waiting"></span></p>
+  </div>
+
+  <div *ngIf="!isLoading && result && !result.success" class="error-state">
+    <h3>❌ Error during analysis</h3>
+    <p class="error-message">{{ result.errorMessage }}</p>
+    <button (click)="onStartNewAnalysis()" class="retry-btn">
+      Try again
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && result && result.success" class="success-state">
+    <h2>Result</h2>
+
+    <div class="result-section">
+      <button 
+        class="section-header"
+        (click)="toggleSection('question')"
+        [class.expanded]="expandedSection === 'question'"
+      >
+        <span class="section-icon">❓</span>
+        <span class="section-title">Your Question</span>
+        <span class="toggle-icon">{{ expandedSection === 'question' ? '▼' : '▶' }}</span>
+      </button>
+      <div class="section-content" *ngIf="expandedSection === 'question'">
+        <p>{{ result.question }}</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <button 
+        class="section-header"
+        (click)="toggleSection('text')"
+        [class.expanded]="expandedSection === 'text'"
+      >
+        <span class="section-icon">📋</span>
+        <span class="section-title">Extracted Text from Document</span>
+        <span class="toggle-icon">{{ expandedSection === 'text' ? '▼' : '▶' }}</span>
+      </button>
+      <div class="section-content" *ngIf="expandedSection === 'text'">
+        <p>{{ result.extractedText }}</p>
+      </div>
+    </div>
+
+    <div class="result-section answer-section">
+      <button 
+        class="section-header"
+        (click)="toggleSection('answer')"
+        [class.expanded]="expandedSection === 'answer'"
+      >
+        <span class="section-icon">🤖</span>
+        <span class="section-title">AI Answer</span>
+        <span class="toggle-icon">{{ expandedSection === 'answer' ? '▼' : '▶' }}</span>
+      </button>
+      <div class="section-content" *ngIf="expandedSection === 'answer'">
+        <p>{{ result.answer }}</p>
+      </div>
+    </div>
+
+    <button (click)="onStartNewAnalysis()" class="new-analysis-btn">
+      Analyze Another Document
+    </button>
+  </div>
+</div>
